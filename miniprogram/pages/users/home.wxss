@@ -1,0 +1,18 @@
+.btn{
+    margin-bottom:16px;
+    background: initial;
+}
+.borrow_detail{
+    z-index: 2;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    top: 30%;
+    right: 15%;
+    width: 70%;
+    height: 50%;
+    background-color: #f6f6f6;
+
+    gap: 0;
+}

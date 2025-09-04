@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/users/login",
+    
+    "pages/firstusers/bookmanager",
+    "pages/onlyuser/firstuser_manager",
+    "pages/users/register",
+    "pages/users/return",
+    "pages/users/me",
+    "pages/index/home",
+    "pages/users/home",
+    "pages/users/book_detail",
+    "pages/firstusers/firstlogin",
+    "pages/firstusers/firsthome",
+    "pages/firstusers/usermanager",
+    "pages/firstusers/selfmanager"
+
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "***图书馆",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#CDCDCD",
+    "selectedColor": "#1296DB",
+    "borderStyle": "black",
+    "backgroundColor": "#f7f7f7",
+    "list": [
+      {
+        "pagePath": "pages/users/home",
+        "iconPath": "image/home.png",
+        "selectedIconPath": "image/homeSelect.png",
+        "text": "书城"
+      },
+      {
+        "pagePath": "pages/users/return",
+        "iconPath": "image/todo.png",
+        "selectedIconPath": "image/todoSelect.png",
+        "text": "归还"
+      },
+      {
+        "pagePath": "pages/users/me",
+        "iconPath": "image/me.png",
+        "selectedIconPath": "image/meSelect.png",
+        "text": "我"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

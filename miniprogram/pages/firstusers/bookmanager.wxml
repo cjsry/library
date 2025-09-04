@@ -1,0 +1,373 @@
+<!--pages/firstusers/bookmanager.wxml-->
+<wxs src="./format.wxs" module="format" />
+
+<view class="basic">
+    <view class="btn-area"></view>
+
+    <button class="btn" hover-class="navigator-hover" type="primary" bindtap="addshow">添加书籍</button>
+    <button class="btn" hover-class="navigator-hover" type="primary" bindtap="managershow">管理书籍</button>
+    <button class="btn" hover-class="navigator-hover" type="primary" bindtap="goback">返回上一级</button>
+</view>
+
+
+<view class="manager_book" wx:if="{{managershow}}">
+    <view class="often1 after-title">
+        <view class="often ">
+            <view class="bd">
+                <input model:value="{{bookName_search}}" class="iput" placeholder="请输入书名" />
+            </view>
+        </view>
+        <view class="often">
+            <view class="bd">
+                <picker model:value="{{index2}}" range="{{array2}}" >
+                    <view class="picker">
+                        书籍类型：{{array2[index2]}}
+                    </view>
+                </picker>
+            </view>
+        </view>
+        <view class="often">
+            <view class="bd">
+                <button bindtap="select">筛选</button>
+            </view>
+        </view>
+    </view>
+
+    <scroll-view class="scroll-view_H" scroll-y="true" scroll-x="true" style="height: 50vh;width:100%;">
+        <view class="form_all">
+            <view class="form_key">
+                <scroll-view  style="height:auto;width:85px;">
+                    <view class="often booktype1 booktype">
+                        <text>书名</text>
+                    </view>
+                </scroll-view>
+                <scroll-view  style="height:auto;width:85px;">
+                    <view class="often booktype1 booktype">
+                        <text>作者</text>
+                    </view>
+                </scroll-view>
+                <scroll-view  style="height:auto;width:162px;">
+                    <view class="often booktype2 booktype">
+                        <text>类型</text>
+                    </view>
+                </scroll-view>
+                <scroll-view  style="height:auto;width:85px;">
+                    <view class="often booktype1 booktype">
+                        <text>出版社</text>
+                    </view>
+                </scroll-view>
+                <scroll-view  style="height:auto;width:117px;">
+                    <view class="often booktype1 booktype">
+                        <text>预览图</text>
+                    </view>
+                </scroll-view>
+                <scroll-view  style="height:auto;width:162px;">
+                    <view class="often booktype2 booktype">
+                        <text>借阅情况</text>
+                    </view>
+                </scroll-view>
+                <view class="often booktype2 textcen booktype">
+                    <text>借阅记录</text>
+                </view>
+                <view class="often booktype2 textcen booktype">
+                    <text>修改</text>
+                </view>
+            </view>
+            <view wx:for="{{tableData}}" wx:key="_id" class="form_value">
+
+                <scroll-view scroll-x="true" style="height:auto;width:85px;">
+                    <view class="often booktype1 booktype">
+                        <text>{{tableData[index].bookName}}</text>
+                    </view>    
+                </scroll-view>
+                
+                <scroll-view scroll-x="true" style="height:auto;width:85px;">
+                    <view class="often booktype1 booktype">
+                        <text>{{tableData[index].bookAuthor}}</text>
+                    </view>
+                </scroll-view>
+                <scroll-view scroll-x="true" style="height:auto;width:162px;">
+                    <view class="often booktype3 booktype">
+                        <text>{{tableData[index].category}}</text>
+                    </view>
+                </scroll-view>
+                <scroll-view scroll-x="true" style="height:auto;width:85px;">
+                    <view class="often booktype1 booktype">
+                        <text>{{tableData[index].press}}</text>
+                    </view>
+                </scroll-view>
+                <scroll-view scroll-x="true" style="height:auto;width:117px;">
+                    <view wx:if="{{tableData[index].fileIDs.length}}" class="often booktype1 booktype">
+                        <text bindtap="imageshow" data-index="{{index}}" style="color: #9999ff;">点击查看</text>
+                    </view>
+                    <view wx:else class="often booktype1 booktype">
+                        <text>暂无预览图</text>
+                    </view>
+                </scroll-view>
+                <scroll-view scroll-x="true" style="height:auto;width:162px;">
+                    <view wx:if="{{tableData[index].inlibrary}}" class="often booktype2 booktype">
+                        <text>在馆</text>
+                    </view>
+                    <view wx:else class="often booktype2 booktype">
+                        <text bindtap="borrowdetail" data-index="{{index}}" style="color: #9999ff;">被借出，点击查看详情</text>
+                    </view>
+                </scroll-view>
+                <view class="often booktype2 booktype">
+                    <text bindtap="log_detail" data-index="{{index}}" style="color: #9999ff;">点击查看</text>
+                </view>
+                <view class="often booktype2 booktype">
+                    <text bindtap="modify" data-index="{{index}}" style="color: #9999ff;">修改</text>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="managershow">返回上一级</button>
+        
+</view>
+
+<view wx:if="{{borrow_show}}" class="borrow_detail">
+    <view class="often">
+        <view class="bd">
+            <text>借阅人：{{borrow_detail.username}}</text>
+        </view>
+    </view>
+    <view class="often">
+        <view class="bd">
+            <text>借阅时间：{{format.formatTime(borrow_detail.borrow_time)}}</text>
+        </view>
+    </view>
+    <view class="often">
+        <view class="bd">
+            <text>借阅时长：{{borrow_detail.expect_time}}天</text>
+        </view>
+    </view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="borrow_show_change">返回上一级</button>
+</view>
+
+<view wx:if="{{log_show}}" class="borrow_detail">
+
+    <scroll-view scroll-y="true" style="width: 100%; height: 70%;">
+        <view wx:for="{{log_detail}}" wx:key="*this">
+            <view class="often">
+                <view class="bd">
+                    <text>借阅人：{{log_detail[log_detail.length-index-1].username}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>借阅时间：{{format.formatTime(log_detail[log_detail.length-index-1].borrow_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view wx:if="{{log_detail[log_detail.length-index-1].return}}" class="bd">
+                    <text>归还时间：{{format.formatTime(log_detail[log_detail.length-index-1].return_time)}}</text>
+                </view>
+                <view wx:else class="bd">
+                    <text>最晚归还时间：{{format.formatTime(log_detail[log_detail.length-index-1].expect_return_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view wx:if="{{log_detail[log_detail.length-index-1].return}}" class="bd">
+                    <text>是否超时：{{log_detail[log_detail.length-index-1].timeout}}</text>
+                </view>
+            </view>
+            <view class="fg">
+            
+            </view>
+        </view>    
+    </scroll-view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="log_show_change">关闭</button>
+</view>
+
+<view wx:if="{{modify_show}}" class="modify_detail">
+    <scroll-view scroll-y="true" style="height: 100%;width: 100%;">
+        
+    
+    
+        <view class="often1 after-title">
+            <view class="often ">
+                <view class="bd">
+                    <input model:value="{{modify_bookName}}" class="iput"  />
+                </view>
+            </view>
+            <view class="often ">
+                <view class="bd">
+                    <input model:value="{{modify_bookAuthor}}" class="iput" />
+                </view>
+            </view>
+            <view class="often ">
+                <view class="bd">
+                    <input model:value="{{modify_press}}" class="iput"  />
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <picker mode="date" fields="year" model:value="{{modify_publicationYear}}"  >
+                        <view class="picker">
+                            出版年份：{{modify_publicationYear}}
+                        </view>
+                    </picker>
+                </view>
+            </view>
+            <view class="often ">
+                <view class="bd">
+                    <picker model:value="{{modify_index}}" range="{{array}}" >
+                        <view class="picker">
+                            书籍类型：{{array[modify_index]}}
+                        </view>
+                    </picker>
+                </view>
+            </view>
+        </view>
+
+        <view class="title"></view>
+        <view class="often1 after-title">
+            <view class="often">
+                <view class="bd">
+                    <textarea model:value="{{modify_bookDes}}" class="textarea" 
+                    style="height: 3.3em" />
+                    <view class="textarea-counter">{{modify_bookDes.length}}/200</view>
+                </view>
+            </view>
+        </view>
+
+        <view class="page__bd">
+            <view class="often1">
+                <view class="often">
+                    <view class="bd">
+                        <view class="weui-uploader">
+                            <view class="uploader__hd">
+                            <view class="uploader__overview">
+                                <view class="uploader__title">图片上传</view>
+                                <view class="uploader__info">{{modify_fileIDs.length}}/2</view>
+                            </view>
+                            <view class="uploader__tips">
+                                上传提示
+                            </view>
+                            </view>
+                            <view class="uploader__bd">
+                                <view class="img_block">
+                                    <block wx:for="{{modify_tempFileURLs}}" wx:key="*this">
+                                        <view class="uploader__file" bindtap="previewImage" id="{{item}}">
+                                            <image class="uploader__img" src="{{item}}" mode="aspectFill" />
+                                        </view>
+                                    </block>
+                                </view>
+                                <view wx:if="{{modify_fileIDs.length<2}}" class="uploader__input-box">
+                                    <view class="uploader__input" bindtap="chooseImage_modify"></view>
+                                </view>
+                                <view wx:if="{{modify_fileIDs.length>0}}"  class="uploader__output-box">
+                                    <view class="uploader__input" bindtap="cancelImage_modify"></view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="btn-area">
+            <button class="btn" type="primary" bindtap="modify_confirm">确认</button>
+            <button class="btn" type="primary" bindtap="modify_back">取消</button>
+        <button class="btn" type="primary" bindtap="book_delete">删除</button>	
+        </view>
+    </scroll-view>  
+</view>
+
+
+
+
+
+<view class="add_book" wx:if="{{addshow}}">
+    
+    <view class="often1 after-title">
+        <view class="often ">
+            <view class="bd">
+                <input model:value="{{bookName}}" class="iput" placeholder="请输入书名" />
+            </view>
+        </view>
+        <view class="often ">
+            <view class="bd">
+                <input model:value="{{bookAuthor}}" class="iput" placeholder="请输入作者" />
+            </view>
+        </view>
+        <view class="often ">
+            <view class="bd">
+                <input model:value="{{press}}" class="iput" placeholder="请输入出版社" />
+            </view>
+        </view>
+        <view class="often">
+            <view class="bd">
+                <picker mode="date" fields="year" model:value="{{publicationYear}}"  >
+                    <view class="picker">
+                        出版年份：{{publicationYear}}
+                    </view>
+                </picker>
+            </view>
+        </view>
+        <view class="often ">
+            <view class="bd">
+                <picker model:value="{{index}}" range="{{array}}" >
+                    <view class="picker">
+                        书籍类型：{{array[index]}}
+                    </view>
+                </picker>
+            </view>
+        </view>
+    </view>
+
+    <view class="title"></view>
+    <view class="often1 after-title">
+        <view class="often">
+            <view class="bd">
+                <textarea model:value="{{bookDes}}" class="textarea" 
+                placeholder="请输入书本简介" style="height: 3.3em" />
+                <view class="textarea-counter">{{bookDes.length}}/200</view>
+            </view>
+        </view>
+    </view>
+
+    <view class="page__bd">
+        <view class="often1">
+            <view class="often">
+                <view class="bd">
+                    <view class="weui-uploader">
+                        <view class="uploader__hd">
+                        <view class="uploader__overview">
+                            <view class="uploader__title">图片上传</view>
+                            <view class="uploader__info">{{files.length}}/2</view>
+                        </view>
+                        <view class="uploader__tips">
+                            上传提示
+                        </view>
+                        </view>
+                        <view class="uploader__bd">
+                            <view class="img_block">
+                                <block wx:for="{{files}}" wx:key="*this">
+                                    <view class="uploader__file" bindtap="previewImage" id="{{item}}">
+                                        <image class="uploader__img" src="{{item}}" mode="aspectFill" />
+                                    </view>
+                                </block>
+                            </view>
+                            <view class="uploader__input-box">
+                                <view class="uploader__input" bindtap="chooseImage"></view>
+                            </view>
+                            <view class="uploader__output-box">
+                                <view class="uploader__input" bindtap="cancelImage"></view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="btn-area">
+        <button class="btn" type="primary" bindtap="handleSubmit">上传</button>
+        <button class="btn" type="primary" bindtap="addshow">取消</button>
+    </view>
+</view>

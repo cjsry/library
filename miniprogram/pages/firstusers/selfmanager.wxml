@@ -1,0 +1,93 @@
+<!--pages/firstusers/selfmanager.wxml-->
+<view class="all">
+    <view class="txt_block">
+        <text class="txt1">{{firstusername}}</text>
+    </view>
+    <view class="txt_block">
+        <text class="txt2">身份：管理员</text>
+    </view>
+    
+    <button hover-class="navigator-hover" class="btn" bindtap="goback">
+        <text class="txt3">返回上一页</text>
+    </button>
+    <button hover-class="navigator-hover" class="btn" bindtap="changedata">
+        <text class="txt3">修改密码</text>
+    </button>
+    <button hover-class="navigator-hover" class="btn" bindtap="loginout">
+        <text class="txt3">退出登录</text>
+    </button>
+    
+    
+</view>
+
+<view class="change" wx:if="{{changeshow}}">
+    <view class="left">
+        <view class="left_word_block">
+            <text class="left_word">修改密码</text>
+        </view>
+        <view class="inp_block">
+            <text class="inp_text">管理员名</text>
+            <input 
+            disabled="true"
+            class="inp"
+            model:value="{{firstusername}}"
+            />
+        </view>
+        <view class="inp_block">
+            <text class="inp_text">原密码</text>
+            <input 
+            type="text"  
+            class="inp"
+            password="{{!showpassword1}}"
+            placeholder="原密码"
+            model:value="{{password1}}"
+            />
+            <image 
+            class="img_input"
+            src="{{showpassword1 ? '../../image/eyeopen.png' : '../../image/eyeclose.png'}}" 
+            bindtap="togglePassword1"
+            />
+        </view>
+        <view class="inp_block">
+            <text class="inp_text">密码</text>
+            <input 
+            type="text"  
+            class="inp"
+            password="{{!showpassword2}}"
+            placeholder="密码"
+            model:value="{{password2}}"
+            />
+            <image 
+            class="img_input"
+            src="{{showpassword2 ? '../../image/eyeopen.png' : '../../image/eyeclose.png'}}" 
+            bindtap="togglePassword2"
+            />
+        </view>
+        <view class="inp_block">
+            <text class="inp_text">确认密码</text>
+            <input 
+            type="text"  
+            class="inp"
+            password="{{!showpassword3}}"
+            placeholder="确认密码"
+            model:value="{{password3}}"
+            />
+            <image 
+            class="img_input"
+            src="{{showpassword3 ? '../../image/eyeopen.png' : '../../image/eyeclose.png'}}" 
+            bindtap="togglePassword3"
+            />
+        </view>
+        <view class="inp_block btn">
+            <button bindtap="change_confirm">
+                确认            
+            </button>
+            <button bindtap="closechange">
+                取消
+            </button>
+        </view>
+    </view>
+    <view class="right">
+        <image src="../../image/close.jpg" class="closebtn" bindtap="closechange" mode="widthFix" />
+    </view> 
+</view>

@@ -1,0 +1,50 @@
+<!--pages/users/login.wxml-->
+<view class="all">
+    <view class="word_block">
+        <text class="word">LOGIN</text>
+    </view>
+    <view class="input_block">
+        <image 
+        class="img_input"
+        src="/image/user.png" 
+        />
+        <input 
+        model:value="{{username}}"
+        class="input" 
+        type="text"
+        placeholder="用户名"
+        />
+        <index class="img_input"></index>
+    </view>
+    <view class="input_block">
+        <image 
+        class="img_input"
+        src="/image/lock.png" 
+        />
+        <input 
+        class="input" 
+        type="text" 
+        password="{{!showPassword}}"
+        placeholder="密码"
+        model:value="{{password}}"
+        />
+        <image 
+        class="img_input"
+        src="{{showPassword ? '/image/eyeopen.png' : '/image/eyeclose.png'}}" 
+        bindtap="togglePassword"
+        />
+    </view>
+
+    <button class="button" bindtap="loginout">登录</button>
+
+    <button class="button" bindtap="registerout">注册</button>
+
+    <button class="button" bindtap="thiswxloginout">使用此微信登录</button>
+
+    <button class="button" bindtap="firstloginout">管理员登录</button>
+
+    
+        
+    
+    
+</view>

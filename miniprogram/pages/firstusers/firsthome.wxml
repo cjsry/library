@@ -1,0 +1,7 @@
+<!--pages/firstusers/firsthome.wxml-->
+<view class="all">
+    <button class="btn" hover-class="navigator-hover" bindtap="usermanager">用户管理</button>
+    <button class="btn" hover-class="navigator-hover" bindtap="bookmanager">图书管理</button>
+    <button class="btn" hover-class="navigator-hover" bindtap="selfmanager">个人中心</button>
+    <button class="btn" hover-class="navigator-hover" bindtap="loginout">退出登录</button>
+</view>

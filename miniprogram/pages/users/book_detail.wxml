@@ -1,0 +1,26 @@
+<!--pages/users/book_detail.wxml-->
+<wxs src="./format.wxs" module="format" />
+
+<view class="main">
+    <view class="header">
+        <view class="imageBox">
+            <image class="aa" data-img='{{[item]}}' bindtap="previewImg" wx:for="{{book_data.fileIDs}}" wx:key="{{index}}" src='{{item}}' mode='aspectFill'></image>
+        </view>
+        <text class="name">{{book_data.bookName}}</text>
+        <text class="des">作者：{{book_data.bookAuthor}}</text>
+        <text class="des">出版商：{{book_data.press}}</text>
+        <text class="des">出版年:{{book_data.publicationYear}}年</text>
+        <text class="des">简介：{{book_data.bookDes}}</text>
+        <text class="des">类型：{{book_data.category}}</text>
+        <view wx:if="{{book_data.inlibrary}}">
+            <text class="des">在馆</text>
+        </view>
+        <view wx:else>
+            <text class="des">预计最晚归还时间：{{format.formatTime(book_data.borrow.expect_return_time)}}</text>
+        </view>
+        
+    </view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="tabBar_back">返回</button>
+</view>

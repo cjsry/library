@@ -1,0 +1,61 @@
+<!--pages/users/register.wxml-->
+<view class="all">
+    <view class="word_block">
+        <text class="word">REGISTER</text>
+    </view>
+    <view class="input_block">
+        <image 
+        class="img_input"
+        src="/image/user.png" 
+        />
+        <input 
+        model:value="{{username}}"
+        class="input" 
+        type="text"
+        placeholder="用户名"
+        />
+        <index class="img_input"></index>
+    </view>
+    <view class="input_block">
+        <image 
+        class="img_input"
+        src="/image/lock.png" 
+        />
+        <input 
+        class="input" 
+        type="text" 
+        password="{{!showPassword1}}"
+        placeholder="密码"
+        model:value="{{password1}}"
+        />
+        <image 
+        class="img_input"
+        src="{{showPassword1 ? '/image/eyeopen.png' : '/image/eyeclose.png'}}" 
+        bindtap="togglePassword1"
+        />
+    </view>
+    <view class="input_block">
+        <image 
+        class="img_input"
+        src="/image/lock.png" 
+        />
+        <input 
+        class="input" 
+        type="text" 
+        password="{{!showPassword2}}"
+        placeholder="重新输入密码"
+        model:value="{{password2}}"
+        />
+        <image 
+        class="img_input"
+        src="{{showPassword2 ? '/image/eyeopen.png' : '/image/eyeclose.png'}}" 
+        bindtap="togglePassword2"
+        />
+    </view>
+    <button class="button" bindtap="registerend">注册</button>
+
+    
+        
+    
+    
+</view>

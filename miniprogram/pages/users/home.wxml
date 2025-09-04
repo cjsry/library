@@ -1,0 +1,134 @@
+<!--pages/users/home.wxml-->
+
+<view class="often1 after-title">
+    <view class="often ">
+        <view class="bd">
+            <input model:value="{{bookName_search}}" class="iput" placeholder="请输入书名" />
+        </view>
+    </view>
+    <view class="often">
+        <view class="bd">
+            <picker model:value="{{index}}" range="{{array}}">
+                <view class="picker">
+                    书籍类型：{{array[index]}}
+                </view>
+            </picker>
+        </view>
+    </view>
+    <view class="often">
+        <view class="bd">
+            <picker model:value="{{index2}}" range="{{array2}}">
+                <view class="picker">
+                    借阅情况：{{array2[index2]}}
+                </view>
+            </picker>
+        </view>
+    </view>
+    <view class="often">
+        <view class="bd">
+            <button bindtap="select">筛选</button>
+        </view>
+    </view>
+</view>
+
+<scroll-view class="scroll-view_H" scroll-y="true" scroll-x="true" style="height: 50vh;width:100%;">
+    <view class="form_all">
+        <view class="form_key">
+            <scroll-view style="height:auto;width:85px;">
+                <view class="often booktype1 booktype">
+                    <text>书名</text>
+                </view>
+            </scroll-view>
+            <scroll-view style="height:auto;width:85px;">
+                <view class="often booktype1 booktype">
+                    <text>作者</text>
+                </view>
+            </scroll-view>
+            <scroll-view style="height:auto;width:162px;">
+                <view class="often booktype2 booktype">
+                    <text>类型</text>
+                </view>
+            </scroll-view>
+            
+            <scroll-view style="height:auto;width:162px;">
+                <view class="often booktype2 booktype">
+                    <text>借阅情况</text>
+                </view>
+            </scroll-view>
+
+            <scroll-view style="height:auto;width:162px;">
+                <view class="often booktype2 booktype">
+                    <text>书籍详情</text>
+                </view>
+            </scroll-view>
+            <scroll-view style="height:auto;width:162px;">
+                <view class="often booktype2 booktype">
+                    <text>借阅书籍</text>
+                </view>
+            </scroll-view>
+        </view>
+        <view wx:for="{{tableData}}" wx:key="_id" class="form_value">
+
+            <scroll-view scroll-x="true" style="height:auto;width:85px;">
+                <view class="often booktype1 booktype">
+                    <text>{{item.bookName}}</text>
+                </view>
+            </scroll-view>
+
+            <scroll-view scroll-x="true" style="height:auto;width:85px;">
+                <view class="often booktype1 booktype">
+                    <text>{{item.bookAuthor}}</text>
+                </view>
+            </scroll-view>
+            <scroll-view scroll-x="true" style="height:auto;width:162px;">
+                <view class="often booktype3 booktype">
+                    <text>{{item.category}}</text>
+                </view>
+            </scroll-view>
+            
+            <scroll-view scroll-x="true" style="height:auto;width:162px;">
+                <view wx:if="{{item.inlibrary}}" class="often booktype2 booktype">
+                    <text>在馆</text>
+                </view>
+                <view wx:else class="often booktype2 booktype">
+                    <text>被借出</text>
+                </view>
+            </scroll-view>
+            <scroll-view scroll-x="true" style="height:auto;width:162px;">
+                <view class="often booktype2 booktype">
+                    <text bindtap="book_detail" data-index="{{index}}" style="color: #9999ff;">点击查看</text>
+                </view>
+            </scroll-view>
+            <scroll-view scroll-x="true" style="height:auto;width:162px;">
+                <view wx:if="{{item.inlibrary}}" class="often booktype2 booktype">
+                    <text bindtap="borrow_book" data-index="{{index}}" style="color: #9999ff;">借阅</text>
+                </view>
+                <view wx:elif="{{_id==item.borrow._id}}" class="often booktype2 booktype">
+                    <text>您已借阅</text>
+                </view>
+                <view wx:else class="often booktype2 booktype">
+                    <text>已被借阅</text>
+                </view>
+            </scroll-view>
+
+            
+            
+        </view>
+        
+    </view>
+    
+</scroll-view>
+
+<view wx:if="{{expect_time_show}}" class="borrow_detail">
+    <view class="btn-area"></view>
+    <slider 
+    min="1" 
+    max="{{credit==100? 7 : (credit<70 ? 3 : 5)}}"
+    model:value="{{expect_time}}"
+    />
+    <view>借阅时长：{{expect_time}}天</view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="borrow_confirm">借阅</button>
+    <button class="btn" type="primary" bindtap="expect_time_show_change">关闭</button>
+</view>

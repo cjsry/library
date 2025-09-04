@@ -1,0 +1,270 @@
+<!--pages/firstusers/usermanager.wxml-->
+<wxs src="./format.wxs" module="format" />
+
+<view class="basic">
+    <view class="title_block">
+        <text class="title_word">用户管理</text>
+    </view>
+
+    <view class="user_manager">
+        <view class="often1 after-title">
+            <view class="often ">
+                <view class="bd">
+                    <input model:value="{{username_search}}" class="iput" placeholder="请输入用户名" />
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <picker model:value="{{index}}" range="{{array}}" >
+                        <view class="picker">
+                            允许借阅：{{array[index]}}
+                        </view>
+                    </picker>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <button bindtap="select">筛选</button>
+                </view>
+            </view>
+        </view>
+
+
+        <scroll-view class="scroll-view_H" scroll-y="true" scroll-x="true" style="height: 50vh;width:100%;">
+            <view class="form_all">
+                <view class="form_key">
+                    <scroll-view  style="height:auto;width:85px;">
+                        <view class="often booktype1 booktype">
+                            <text>用户名</text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view  style="height:auto;width:85px;">
+                        <view class="often booktype1 booktype">
+                            <text>信誉值</text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view  style="height:auto;width:162px;">
+                        <view class="often booktype2 booktype">
+                            <text>是否允许借阅</text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view  style="height:auto;width:117px;">
+                        <view class="often booktype1 booktype">
+                            <text>当前借阅</text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view  style="height:auto;width:117px;">
+                        <view class="often booktype1 booktype">
+                            <text>借阅记录</text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view  style="height:auto;width:162px;">
+                        <view class="often booktype2 booktype">
+                            <text>违约记录</text>
+                        </view>
+                    </scroll-view>
+                    <view class="often booktype2 booktype">
+                        <text>最近登录</text>
+                    </view>
+                    <!-- <view class="often booktype2 booktype">
+                        <text>修改</text>
+                    </view> -->
+                </view>
+                <view wx:for="{{tableData}}" wx:key="_id" class="form_value">
+
+                    <scroll-view scroll-x="true" style="height:auto;width:85px;">
+                        <view class="often booktype1 booktype">
+                            <text>{{tableData[index].username}}</text>
+                        </view>    
+                    </scroll-view>
+                    
+                    <scroll-view scroll-x="true" style="height:auto;width:85px;">
+                        <view class="often booktype1 booktype">
+                            <text
+                            bindtap="credit_change"
+                            data-id="{{tableData[index]._id}}"
+                            data-index="{{index}}"  
+                            style="color: #9999ff;"
+                            >{{tableData[index].credit}}</text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view scroll-x="true" style="height:auto;width:162px;">
+                        <view class="often booktype2 booktype">
+                            <text 
+                            bindtap="permission_change1"
+                            data-id="{{tableData[index]._id}}"
+                            data-index="{{index}}"  
+                            style="color: #9999ff;">{{tableData[index].borrow_permission}}
+                            </text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view scroll-x="true" style="height:auto;width:117px;">
+                        <view wx:if="{{tableData[index].borrow.length}}" class="often booktype1 booktype">
+                            <text bindtap="now_borrow_detail" data-index="{{index}}" style="color: #9999ff;">点击查看</text>
+                        </view>
+                        <view wx:else class="often booktype1 booktype">
+                            <text>无正在借阅图书</text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view scroll-x="true" style="height:auto;width:117px;">
+                        <view wx:if="{{tableData[index].borrow_logs.length}}" class="often booktype1 booktype">
+                            <text bindtap="borrow_log_detail" data-index="{{index}}" style="color: #9999ff;">点击查看</text>
+                        </view>
+                        <view wx:else class="often booktype1 booktype">
+                            <text>无借阅记录</text>
+                        </view>
+                    </scroll-view>
+                    <scroll-view scroll-x="true" style="height:auto;width:162px;">
+                        <view wx:if="{{tableData[index].time_out_logs.length}}" class="often booktype2 booktype">
+                            
+                            <text bindtap="time_out_log_detail" data-index="{{index}}" style="color: #9999ff;">点击查看详情</text>
+                        </view>
+                        <view wx:else class="often booktype2 booktype">
+                            <text>无违约记录</text>
+                        </view>
+                    </scroll-view>
+                    <view class="often booktype2 booktype">
+                        <text >{{format.formatTimeAgo(tableData[index].updatetime)}}</text>
+                    </view>
+                    <!-- <view class="often booktype2 booktype">
+                        <text bindtap="modify" data-index="{{index}}" style="color: #9999ff;">修改</text>
+                    </view> -->
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+
+
+
+
+
+
+
+
+
+    <button class="btn" hover-class="navigator-hover" type="primary" bindtap="goback">返回上一级</button>
+</view>
+
+
+
+
+
+<view wx:if="{{credit_change_show}}" class="borrow_detail">
+    <view class="btn-area"></view>
+    <slider 
+    min="1" 
+    max="100"
+    model:value="{{new_credit}}"
+    show-value
+    />
+    <view>当前值：{{new_credit}}</view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="credit_change_onload">修改</button>
+    <button class="btn" type="primary" bindtap="credit_change_show_change">关闭</button>
+</view>
+
+
+<view wx:if="{{now_borrow_show}}" class="borrow_detail">
+    <scroll-view scroll-y="true" style="width: 100%; height: 70%;">
+        <view wx:for="{{now_borrow_detail}}" wx:key="*this">
+            <view class="often">
+                <view class="bd">
+                    <text>借阅书名：{{item.bookname}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>借阅时间：{{format.formatTime(item.borrow_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>借阅时长：{{item.expect_time}}天</text>
+                </view>
+            </view>
+            <view class="fg">
+            
+            </view>
+        </view>
+
+    </scroll-view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="now_borrow_show_change">关闭</button>
+</view>
+
+<view wx:if="{{borrow_log_show}}" class="borrow_detail">
+
+    <scroll-view scroll-y="true" style="width: 100%; height: 70%;">
+        <view wx:for="{{borrow_log_detail}}" wx:key="*this">
+            <view class="often">
+                <view class="bd">
+                    <text>借阅书名：{{borrow_log_detail[borrow_log_detail.length-index-1].bookname}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>借阅时间：{{format.formatTime(borrow_log_detail[borrow_log_detail.length-index-1].borrow_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view wx:if="{{borrow_log_detail[borrow_log_detail.length-index-1].return}}" class="bd">
+                    <text>归还时间：{{format.formatTime(borrow_log_detail[borrow_log_detail.length-index-1].return_time)}}</text>
+                </view>
+                <view wx:else class="bd">
+                    <text>最晚归还时间：{{format.formatTime(borrow_log_detail[borrow_log_detail.length-index-1].expect_return_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view wx:if="{{borrow_log_detail[borrow_log_detail.length-index-1].return}}" class="bd">
+                    <text>是否超时：{{borrow_log_detail[borrow_log_detail.length-index-1].timeout}}</text>
+                </view>
+            </view>
+            <view class="fg">
+            
+            </view>
+        </view>    
+    </scroll-view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="borrow_log_show_change">关闭</button>
+</view>
+
+<view wx:if="{{time_out_show}}" class="borrow_detail">
+    <scroll-view scroll-y="true" style="height: 70%;width: 100%;">
+        <view wx:for="{{timeout_log_detail}}" wx:key="*this">       
+            <view class="often ">
+                <view class="bd">
+                    <text>借阅书名：{{item.bookname}}</text>
+                </view>
+            </view>
+            <view class="often ">
+                <view class="bd">
+                    <text>借阅时间：{{format.formatTime(item.borrow_time)}}</text>
+                </view>
+            </view>
+            <view class="often ">
+                <view class="bd">
+                    <text>借阅时长：{{item.expect_time}}天</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>归还时间：{{format.formatTime(item.return_time)}}</text>
+                </view>
+            </view>
+            <view class="often ">
+                <view class="bd">
+                    <text>惩罚：信誉值{{item.credit_punish}}分</text>
+                </view>
+            </view>
+            <view class="fg"></view>
+        </view>
+
+        
+    </scroll-view>
+    <view class="btn-area">
+        <button class="btn" type="primary" bindtap="time_out_show_change">关闭</button>	
+    </view>  
+</view>

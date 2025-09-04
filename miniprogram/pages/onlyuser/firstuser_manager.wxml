@@ -1,0 +1,109 @@
+<!--pages/onlyusers/firstuser_manager.wxml-->
+<view class="all">
+
+  
+  <!-- 表格组件 -->
+
+    <view class="word_block">
+        <text class="word">管理员管理</text>
+    </view>
+    <view class="table-header">
+        <block >
+            <view class="th" >管理员名</view>
+            <view class="th" >管理权限</view>
+            <view class="th" >删除</view>
+        </block>
+    </view>
+    
+    <scroll-view scroll-y style="height: 50vh;width:100%;">
+        
+        <view wx:for="{{tableData}}" wx:key="_id" class="table-body">
+            <view class="tr">{{tableData[index].username}}</view>
+            <view class="tr">
+                <button 
+                class="btm" 
+                hover-class="navigator-hover" 
+                bindtap="changepms" 
+                data-id="{{tableData[index]._id}}"
+                data-index="{{index}}">
+                    {{tableData[index].permission}}
+                </button>
+            </view>
+            <view class="tr">
+                <button 
+                class="btm" 
+                hover-class="navigator-hover"
+                bindtap="clear" 
+                data-id="{{tableData[index]._id}}"
+                data-index="{{index}}">
+                    删除
+                </button>
+            </view>   
+        </view>
+    </scroll-view>
+    <view>
+        <button bindtap="changeaddshow">添加管理员</button>
+        <button bindtap="loginout">退出登录</button>
+    </view>
+
+</view>
+
+<view class="add" wx:if="{{add_show}}">
+    <view class="left">
+        <view class="left_word_block">
+            <text class="left_word">添加管理员</text>
+        </view>
+        <view class="inp_block">
+            <text class="inp_text">管理员名</text>
+            <input 
+            type="text"  
+            class="inp"
+            placeholder="管理员名"
+            model:value="{{managername}}"
+            />
+        </view>
+        <view class="inp_block">
+            <text class="inp_text">密码</text>
+            <input 
+            type="text"  
+            class="inp"
+            password="{{!showpassword1}}"
+            placeholder="密码"
+            model:value="{{password1}}"
+            />
+            <image 
+            class="img_input"
+            src="{{showpassword1 ? '../../image/eyeopen.png' : '../../image/eyeclose.png'}}" 
+            bindtap="togglePassword1"
+            />
+        </view>
+        <view class="inp_block">
+            <text class="inp_text">确认密码</text>
+            <input 
+            type="text"  
+            class="inp"
+            password="{{!showpassword2}}"
+            placeholder="确认密码"
+            model:value="{{password2}}"
+            />
+            <image 
+            class="img_input"
+            src="{{showpassword2 ? '../../image/eyeopen.png' : '../../image/eyeclose.png'}}" 
+            bindtap="togglePassword2"
+            />
+        </view>
+        <view class="inp_block btn">
+            <button bindtap="add_confirm">
+                确认            
+            </button>
+            <button bindtap="closeadd">
+                取消
+            </button>
+        </view>
+    </view>
+    <view class="right">
+        <image src="../../image/close.jpg" class="closebtn" bindtap="closeadd" mode="widthFix" />
+        
+    </view>
+    
+</view>

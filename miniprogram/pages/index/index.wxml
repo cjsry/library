@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<view class="all">
+    <view class="load">
+        <image class="load_img" src="/image/load.gif"/>
+    </view>
+</view>

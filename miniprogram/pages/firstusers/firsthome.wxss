@@ -1,0 +1,18 @@
+/* pages/firstusers/firsthome.wxss */
+
+.all{
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #75880a;
+}
+.btn{
+    width: 50%;
+    height: 15vh;
+    margin-top: 60rpx;
+    background-color: #9999ff;
+    color: white;
+    font-size: 50rpx;
+    line-height: 13vh;
+}

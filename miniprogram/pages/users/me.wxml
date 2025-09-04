@@ -1,0 +1,119 @@
+<!--pages/users/me.wxml-->
+<wxs src="./format.wxs" module="format" />
+<view class="basic">
+    <view class="often1 after-title">
+        <view class="often ">
+            <view class="bd">
+                <text>账户：{{tableData.username}}</text>
+            </view>
+        </view>
+        <view class="often">
+            <view class="bd">
+                <text bindtap="borrow_logs_show_change">借阅记录</text>
+            </view>
+        </view>
+        <view class="often">
+            <view class="bd">
+                <text bindtap="timeout_logs_show_change">违约记录</text>
+            </view>
+        </view>
+        <view class="often">
+            <view class="bd">
+                <view>
+                    <text>当前信誉分：{{tableData.credit}}</text>
+                </view>
+                <view wx:if="{{tableData.credit<100}}">
+                    <text bindtap="larger_credit_show_change" style="color: #9999ff;">点击查询恢复信誉分方法</text>
+                </view>    
+            </view>
+        </view>
+    </view>
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="loginout">退出登录</button>
+
+</view>
+
+<view wx:if="{{larger_credit_show}}" class="modify_detail">
+    <scroll-view scroll-y="true" style="height: 100%;width: 100%;">
+        <view class="block">
+            <text class="title1 whitespace">信誉分规则\n</text>
+            <text class="whitespace">       信誉分满分100分，每次违约扣除10分,</text>
+            <text class="whitespace" style="color: red;">每次借阅时长长于1天并且没有违约信誉分恢复2分。\n</text>
+            <text class="whitespace">信誉分为100时，可借阅5本，最长借阅7天\n90-99时，可借阅4本\n80-89时，可借阅3本，最长借阅5天\n70-79时，可借阅2本，最长借阅5天\n60-69时，可借阅1本，最长借阅3天\n60分以下禁止借阅，需要联系管理员</text>
+        </view>
+        <view class="btn-area">
+            <button class="btn" type="primary" bindtap="larger_credit_show_change">知道了</button>
+        </view>
+            
+
+    </scroll-view> 
+</view>
+
+<view wx:if="{{borrow_logs_show}}" class="modify_detail">
+    <scroll-view scroll-y="true" style="width: 100%; height: 70%;">
+        <view wx:for="{{tableData.borrow_logs}}" wx:key="*this">
+            <view class="often">
+                <view class="bd">
+                    <text>借阅书名：{{item.bookname}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>借阅时间：{{format.formatTime(item.borrow_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view wx:if="{{item.return}}" class="bd">
+                    <text>归还时间：{{format.formatTime(item.return_time)}}</text>
+                </view>
+                <view wx:else class="bd">
+                    <text>最晚归还时间：{{format.formatTime(item.expect_return_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view wx:if="{{item.return}}" class="bd">
+                    <text>是否超时：{{item.timeout}}</text>
+                </view>
+            </view>
+            <view class="fg">
+            
+            </view>
+        </view>    
+    </scroll-view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="borrow_logs_show_change">关闭</button>
+</view>
+
+<view wx:if="{{timeout_logs_show}}" class="modify_detail">
+    <scroll-view scroll-y="true" style="width: 100%; height: 70%;">
+        <view wx:for="{{tableData.time_out_logs}}" wx:key="*this">
+            <view class="often">
+                <view class="bd">
+                    <text>借阅书名：{{item.bookname}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>借阅时间：{{format.formatTime(item.borrow_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>归还时间：{{format.formatTime(item.return_time)}}</text>
+                </view>
+            </view>
+            <view class="often">
+                <view class="bd">
+                    <text>超时惩罚：信誉分{{item.credit_punish}}分</text>
+                </view>
+            </view>
+            <view class="fg">
+            
+            </view>
+        </view>    
+    </scroll-view>
+
+    <view class="btn-area"></view>
+    <button class="btn" type="primary" bindtap="timeout_logs_show_change">关闭</button>
+</view>
